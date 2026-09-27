@@ -1,0 +1,53 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Kelola Sekolah</h1>
+
+<div class="actions-row">
+  <a class="btn btn-primary" href="/admin/sekolah/baru">Tambah Sekolah</a>
+</div>
+
+<div class="section">
+  <% if (dataError) { %>
+    <div class="state-box state-error">
+      <h3>Data tidak dapat dimuat</h3>
+      <p><%= dataError %></p>
+    </div>
+  <% } else if (schools.length === 0) { %>
+    <div class="state-box state-empty">
+      <h3>Belum ada sekolah</h3>
+      <p>Tambahkan sekolah pertama untuk mulai menerima pendaftar.</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nama Sekolah</th>
+            <th>Koordinat</th>
+            <th class="numeric">Kuota Zonasi</th>
+            <th class="numeric">Kuota Prestasi</th>
+            <th class="numeric">Kuota Afirmasi</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% schools.forEach(function (school) { %>
+            <tr>
+              <td><%= school.name %><br><span class="text-muted"><%= school.address %></span></td>
+              <td><%= school.lat.toFixed(4) %>, <%= school.lng.toFixed(4) %></td>
+              <td class="numeric"><%= school.quotaZonasi %></td>
+              <td class="numeric"><%= school.quotaPrestasi %></td>
+              <td class="numeric"><%= school.quotaAfirmasi %></td>
+              <td>
+                <a class="btn btn-secondary btn-sm" href="/admin/sekolah/<%= school.id %>/edit">Ubah</a>
+                <a class="btn btn-danger btn-sm" href="/admin/sekolah/<%= school.id %>/hapus">Hapus</a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/foot') %>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - Pendaftaran Sekolah Sistem Zonasi</title>
+  <meta name="description" content="Layanan pendaftaran peserta didik baru berbasis sistem zonasi: kelola sekolah, daftar sebagai calon siswa, dan cek hasil kelulusan.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <noscript><style>.koordinat-map, .map-status { display: none; }</style></noscript>
+</head>
+<body>
+<a class="skip-link" href="#konten-utama">Lompat ke konten utama</a>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="14" fill="none" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="16" cy="16" r="9" fill="none" stroke="#ffd166" stroke-width="2"/>
+        <circle cx="16" cy="16" r="2.4" fill="#ffffff"/>
+      </svg>
+      <span>Pendaftaran Sekolah Zonasi</span>
+    </a>
+    <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="nav-utama">
+      Menu
+    </button>
+    <% if (currentPath && currentPath.startsWith('/admin')) { %>
+      <ul class="nav-links" id="nav-utama" data-nav-links>
+        <li><a href="/admin" <%- currentPath === '/admin' ? 'aria-current="page"' : '' %>>Dasbor</a></li>
+        <li><a href="/admin/sekolah" <%- currentPath.startsWith('/admin/sekolah') ? 'aria-current="page"' : '' %>>Sekolah</a></li>
+        <li><a href="/admin/jadwal" <%- currentPath.startsWith('/admin/jadwal') ? 'aria-current="page"' : '' %>>Jadwal Pengumuman</a></li>
+        <li><a href="/">Lihat Situs Publik</a></li>
+        <li>
+          <form class="inline-form" method="post" action="/admin/logout">
+            <button type="submit" class="nav-link-button">Keluar</button>
+          </form>
+        </li>
+      </ul>
+    <% } else { %>
+      <ul class="nav-links" id="nav-utama" data-nav-links>
+        <li><a href="/" <%- currentPath === '/' ? 'aria-current="page"' : '' %>>Beranda</a></li>
+        <li><a href="/sekolah" <%- currentPath.startsWith('/sekolah') ? 'aria-current="page"' : '' %>>Daftar Sekolah</a></li>
+        <li><a href="/admin" <%- currentPath.startsWith('/admin') ? 'aria-current="page"' : '' %>>Admin</a></li>
+      </ul>
+    <% } %>
+  </div>
+</header>
+<main id="konten-utama">
+  <div class="container">

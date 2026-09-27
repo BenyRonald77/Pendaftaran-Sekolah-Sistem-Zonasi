@@ -1,0 +1,59 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title"><%= mode === 'create' ? 'Tambah Sekolah' : 'Ubah Sekolah: ' + school.name %></h1>
+
+<form method="post" action="<%= mode === 'create' ? '/admin/sekolah' : '/admin/sekolah/' + school.id %>">
+  <fieldset>
+    <legend>Identitas Sekolah</legend>
+    <div class="field">
+      <label for="name">Nama Sekolah</label>
+      <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
+      <% if (errors.name) { %><p class="field-error"><%= errors.name %></p><% } %>
+    </div>
+    <div class="field">
+      <label for="address">Alamat</label>
+      <input type="text" id="address" name="address" value="<%= values.address || '' %>" required>
+      <% if (errors.address) { %><p class="field-error"><%= errors.address %></p><% } %>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Lokasi Sekolah</legend>
+    <%- include('../partials/koordinat-input', {
+      idPrefix: 'sekolah',
+      label: 'Titik lokasi sekolah',
+      latValue: values.lat || '',
+      lngValue: values.lng || '',
+      latError: errors.lat,
+      lngError: errors.lng
+    }) %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Kuota per Jalur</legend>
+    <div class="field-row">
+      <div class="field">
+        <label for="quotaZonasi">Kuota Zonasi</label>
+        <input type="number" min="0" step="1" id="quotaZonasi" name="quotaZonasi" value="<%= values.quotaZonasi ?? '' %>" required>
+        <% if (errors.quotaZonasi) { %><p class="field-error"><%= errors.quotaZonasi %></p><% } %>
+      </div>
+      <div class="field">
+        <label for="quotaPrestasi">Kuota Prestasi</label>
+        <input type="number" min="0" step="1" id="quotaPrestasi" name="quotaPrestasi" value="<%= values.quotaPrestasi ?? '' %>" required>
+        <% if (errors.quotaPrestasi) { %><p class="field-error"><%= errors.quotaPrestasi %></p><% } %>
+      </div>
+    </div>
+    <div class="field">
+      <label for="quotaAfirmasi">Kuota Afirmasi</label>
+      <input type="number" min="0" step="1" id="quotaAfirmasi" name="quotaAfirmasi" value="<%= values.quotaAfirmasi ?? '' %>" required>
+      <% if (errors.quotaAfirmasi) { %><p class="field-error"><%= errors.quotaAfirmasi %></p><% } %>
+    </div>
+  </fieldset>
+
+  <div class="actions-row">
+    <button type="submit" class="btn btn-primary"><%= mode === 'create' ? 'Simpan Sekolah' : 'Simpan Perubahan' %></button>
+    <a class="btn btn-secondary" href="/admin/sekolah">Batal</a>
+  </div>
+</form>
+
+<%- include('../partials/foot') %>

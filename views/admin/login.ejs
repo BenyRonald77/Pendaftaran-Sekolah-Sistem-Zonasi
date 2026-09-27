@@ -1,0 +1,20 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Masuk Admin</h1>
+<p class="page-lede">Halaman ini khusus untuk petugas dinas/sekolah yang mengelola data sistem zonasi.</p>
+
+<% if (error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<form method="post" action="/admin/login" class="card" style="max-width:24rem">
+  <div class="field">
+    <label for="password">Kata Sandi Admin</label>
+    <input type="password" id="password" name="password" required autofocus>
+  </div>
+  <div class="actions-row">
+    <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+  </div>
+</form>
+
+<%- include('../partials/foot') %>

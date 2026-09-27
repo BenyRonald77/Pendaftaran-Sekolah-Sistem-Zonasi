@@ -1,0 +1,41 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Jadwal Pengumuman</h1>
+<p class="page-lede">
+  Tanggal dan jam di bawah ini menentukan kapan halaman publik Cek Hasil mulai menampilkan status
+  kelulusan. Waktu ditafsirkan sebagai Waktu Indonesia Barat (WIB) dan dibandingkan dengan jam server,
+  sehingga tidak dapat dilewati dari sisi browser pengguna.
+</p>
+
+<% if (success) { %>
+  <div class="alert alert-success">Jadwal pengumuman berhasil diperbarui.</div>
+<% } %>
+<% if (error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<div class="card">
+  <p class="mt-0">
+    Status saat ini:
+    <span class="badge <%= released ? 'badge--diterima' : 'badge--menunggu' %>">
+      <%= released ? 'Sudah tayang untuk publik' : 'Belum tayang' %>
+    </span>
+  </p>
+  <% if (releaseAtFormatted) { %>
+    <p>Jadwal tersimpan: <strong><%= releaseAtFormatted %></strong></p>
+  <% } else { %>
+    <p class="text-muted">Belum ada jadwal tersimpan.</p>
+  <% } %>
+</div>
+
+<form method="post" action="/admin/jadwal" class="card">
+  <div class="field">
+    <label for="releaseAt">Tanggal dan Jam Rilis (WIB)</label>
+    <input type="datetime-local" id="releaseAt" name="releaseAt" value="<%= releaseAtLocalInput %>" required>
+  </div>
+  <div class="actions-row">
+    <button type="submit" class="btn btn-primary">Simpan Jadwal</button>
+  </div>
+</form>
+
+<%- include('../partials/foot') %>

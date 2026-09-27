@@ -1,0 +1,78 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Dasbor Admin</h1>
+<p class="page-lede">Ringkasan data sistem zonasi saat ini.</p>
+
+<% if (dataError) { %>
+  <div class="state-box state-error">
+    <h3>Data tidak dapat dimuat</h3>
+    <p><%= dataError %></p>
+  </div>
+<% } else { %>
+  <div class="section">
+    <div class="card-grid">
+      <div class="stat-card">
+        <span class="stat-value"><%= totalSchools %></span>
+        <span class="stat-label">Sekolah terdaftar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Jadwal Pengumuman</h2>
+    <div class="card">
+      <% if (releaseAtFormatted) { %>
+        <p class="mt-0">
+          Rilis: <strong><%= releaseAtFormatted %></strong>
+          &mdash;
+          <span class="badge <%= released ? 'badge--diterima' : 'badge--menunggu' %>">
+            <%= released ? 'Sudah tayang' : 'Belum tayang' %>
+          </span>
+        </p>
+      <% } else { %>
+        <p class="mt-0 text-muted">Jadwal belum diatur.</p>
+      <% } %>
+      <a class="btn btn-secondary btn-sm" href="/admin/jadwal">Ubah Jadwal</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Sekolah</h2>
+    <% if (schools.length === 0) { %>
+      <div class="state-box state-empty">
+        <h3>Belum ada sekolah</h3>
+        <p>Tambahkan data sekolah terlebih dahulu untuk mulai menerima pendaftar.</p>
+        <a class="btn btn-primary btn-sm" href="/admin/sekolah/baru">Tambah Sekolah</a>
+      </div>
+    <% } else { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sekolah</th>
+              <th class="numeric">Kuota Zonasi</th>
+              <th class="numeric">Kuota Prestasi</th>
+              <th class="numeric">Kuota Afirmasi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% schools.forEach(function (school) { %>
+              <tr>
+                <td><%= school.name %></td>
+                <td class="numeric"><%= school.quotaZonasi %></td>
+                <td class="numeric"><%= school.quotaPrestasi %></td>
+                <td class="numeric"><%= school.quotaAfirmasi %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="actions-row">
+    <a class="btn btn-primary" href="/admin/sekolah/baru">Tambah Sekolah</a>
+  </div>
+<% } %>
+
+<%- include('../partials/foot') %>

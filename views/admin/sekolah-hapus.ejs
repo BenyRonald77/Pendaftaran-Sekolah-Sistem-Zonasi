@@ -1,0 +1,27 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Hapus Sekolah: <%= school.name %></h1>
+
+<% if (affectedCount > 0) { %>
+  <div class="alert alert-error">
+    Sekolah ini masih memiliki <strong><%= affectedCount %></strong> data pendaftar.
+    Menghapus sekolah akan membuat data pendaftar tersebut kehilangan rujukan sekolah tujuannya.
+    Pastikan Anda benar-benar ingin melanjutkan.
+  </div>
+<% } else { %>
+  <p>Sekolah ini belum memiliki pendaftar. Aman untuk dihapus.</p>
+<% } %>
+
+<form method="post" action="/admin/sekolah/<%= school.id %>/hapus">
+  <% if (affectedCount > 0) { %>
+    <input type="hidden" name="confirm" value="1">
+  <% } %>
+  <div class="actions-row">
+    <button type="submit" class="btn btn-danger">
+      <%= affectedCount > 0 ? 'Ya, Tetap Hapus Sekolah Ini' : 'Hapus Sekolah' %>
+    </button>
+    <a class="btn btn-secondary" href="/admin/sekolah">Batal</a>
+  </div>
+</form>
+
+<%- include('../partials/foot') %>

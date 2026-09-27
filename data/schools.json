@@ -1,0 +1,38 @@
+[
+  {
+    "id": "13c445e9-0100-4c89-9179-7ed4d688062f",
+    "name": "SMP Negeri 1 Bandung",
+    "address": "Jl. Ibrahim Adjie, Kiaracondong, Kota Bandung",
+    "lat": -6.9147,
+    "lng": 107.6298,
+    "quotaZonasi": 3,
+    "quotaPrestasi": 2,
+    "quotaAfirmasi": 2,
+    "createdAt": "2026-09-01T02:00:00.000Z",
+    "updatedAt": "2026-09-01T02:00:00.000Z"
+  },
+  {
+    "id": "e342710c-2f92-486c-8b37-53ab7e28acb7",
+    "name": "SMP Negeri 5 Bandung",
+    "address": "Jl. Sumatera No. 40, Merdeka, Kota Bandung",
+    "lat": -6.9026,
+    "lng": 107.6181,
+    "quotaZonasi": 40,
+    "quotaPrestasi": 15,
+    "quotaAfirmasi": 10,
+    "createdAt": "2026-09-01T02:00:00.000Z",
+    "updatedAt": "2026-09-01T02:00:00.000Z"
+  },
+  {
+    "id": "f94c764a-b4d4-4905-8922-9a3ec653e9a7",
+    "name": "SMP Negeri 14 Bandung",
+    "address": "Jl. Yudha Wastu Pramuka III, Cibeunying Kidul, Kota Bandung",
+    "lat": -6.8951,
+    "lng": 107.6247,
+    "quotaZonasi": 35,
+    "quotaPrestasi": 12,
+    "quotaAfirmasi": 8,
+    "createdAt": "2026-09-01T02:00:00.000Z",
+    "updatedAt": "2026-09-01T02:00:00.000Z"
+  }
+]

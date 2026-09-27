@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+
+<h1 class="page-title">Daftar Sekolah</h1>
+<p class="page-lede">Sekolah yang berpartisipasi dalam sistem zonasi beserta kuota per jalur penerimaan.</p>
+
+<% if (dataError) { %>
+  <div class="state-box state-error">
+    <h3>Data tidak dapat dimuat</h3>
+    <p><%= dataError %></p>
+  </div>
+<% } else if (schools.length === 0) { %>
+  <div class="state-box state-empty">
+    <h3>Belum ada sekolah terdaftar</h3>
+    <p>Dinas pendidikan belum menambahkan data sekolah ke sistem ini.</p>
+  </div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Nama Sekolah</th>
+          <th>Alamat</th>
+          <th class="numeric">Kuota Zonasi</th>
+          <th class="numeric">Kuota Prestasi</th>
+          <th class="numeric">Kuota Afirmasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% schools.forEach(function (school) { %>
+          <tr>
+            <td><%= school.name %></td>
+            <td><%= school.address %></td>
+            <td class="numeric"><%= school.quotaZonasi %></td>
+            <td class="numeric"><%= school.quotaPrestasi %></td>
+            <td class="numeric"><%= school.quotaAfirmasi %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('partials/foot') %>
