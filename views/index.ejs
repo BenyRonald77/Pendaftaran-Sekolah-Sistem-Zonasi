@@ -6,6 +6,7 @@
 </p>
 
 <div class="actions-row">
+  <a class="btn btn-primary" href="/daftar">Isi Formulir Pendaftaran</a>
   <a class="btn btn-secondary" href="/sekolah">Lihat Daftar Sekolah</a>
 </div>
 
@@ -30,6 +31,14 @@
       <div class="stat-card">
         <span class="stat-value"><%= schools.length %></span>
         <span class="stat-label">Sekolah terdaftar dalam sistem</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><%= totalRegistrants %></span>
+        <span class="stat-label">Total pendaftar tercatat</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><%= countByTrack.zonasi %> / <%= countByTrack.prestasi %> / <%= countByTrack.afirmasi %></span>
+        <span class="stat-label">Pendaftar per jalur (zonasi / prestasi / afirmasi)</span>
       </div>
     </div>
   </div>

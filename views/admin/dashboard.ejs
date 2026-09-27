@@ -15,6 +15,22 @@
         <span class="stat-value"><%= totalSchools %></span>
         <span class="stat-label">Sekolah terdaftar</span>
       </div>
+      <div class="stat-card">
+        <span class="stat-value"><%= totalRegistrants %></span>
+        <span class="stat-label">Total pendaftar</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><%= countByTrack.zonasi %></span>
+        <span class="stat-label">Pendaftar jalur zonasi</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><%= countByTrack.prestasi %></span>
+        <span class="stat-label">Pendaftar jalur prestasi</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value"><%= countByTrack.afirmasi %></span>
+        <span class="stat-label">Pendaftar jalur afirmasi</span>
+      </div>
     </div>
   </div>
 
@@ -72,6 +88,8 @@
 
   <div class="actions-row">
     <a class="btn btn-primary" href="/admin/sekolah/baru">Tambah Sekolah</a>
+    <a class="btn btn-secondary" href="/admin/pendaftar/baru">Tambah Pendaftar</a>
+    <a class="btn btn-secondary" href="/admin/pendaftar">Lihat Data Pendaftar</a>
   </div>
 <% } %>
 

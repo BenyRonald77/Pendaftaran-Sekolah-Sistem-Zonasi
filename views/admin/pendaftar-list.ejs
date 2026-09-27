@@ -1,0 +1,86 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Data Pendaftar</h1>
+
+<div class="actions-row">
+  <a class="btn btn-primary" href="/admin/pendaftar/baru">Tambah Pendaftar</a>
+</div>
+
+<form method="get" action="/admin/pendaftar" class="card">
+  <div class="field-row">
+    <div class="field">
+      <label for="schoolId">Filter Sekolah</label>
+      <select id="schoolId" name="schoolId">
+        <option value="">Semua sekolah</option>
+        <% schools.forEach(function (school) { %>
+          <option value="<%= school.id %>" <%= schoolId === school.id ? 'selected' : '' %>><%= school.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="field">
+      <label for="track">Filter Jalur</label>
+      <select id="track" name="track">
+        <option value="">Semua jalur</option>
+        <option value="zonasi" <%= track === 'zonasi' ? 'selected' : '' %>>Zonasi</option>
+        <option value="prestasi" <%= track === 'prestasi' ? 'selected' : '' %>>Prestasi</option>
+        <option value="afirmasi" <%= track === 'afirmasi' ? 'selected' : '' %>>Afirmasi</option>
+      </select>
+    </div>
+  </div>
+  <div class="actions-row">
+    <button type="submit" class="btn btn-secondary">Terapkan Filter</button>
+  </div>
+</form>
+
+<div class="section">
+  <% if (dataError) { %>
+    <div class="state-box state-error">
+      <h3>Data tidak dapat dimuat</h3>
+      <p><%= dataError %></p>
+    </div>
+  <% } else if (registrants.length === 0) { %>
+    <div class="state-box state-empty">
+      <h3>Belum ada pendaftar</h3>
+      <p>Belum ada data pendaftar yang cocok dengan filter ini.</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>NISN</th>
+            <th>Sekolah</th>
+            <th>Jalur</th>
+            <th class="numeric">Jarak</th>
+            <th class="numeric">Nilai Prestasi</th>
+            <th>Waktu Daftar</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% registrants.forEach(function (r) { %>
+            <tr>
+              <td><%= r.name %></td>
+              <td><%= r.nisn %></td>
+              <td><%= r.school ? r.school.name : '(sekolah tidak ditemukan)' %></td>
+              <td><span class="badge badge--track"><%= TRACK_LABELS[r.track] %></span></td>
+              <td class="numeric"><%= formatDistance(r.distanceKm) %></td>
+              <td class="numeric"><%= r.achievementScore !== null && r.achievementScore !== undefined ? r.achievementScore : '-' %></td>
+              <td><%= new Date(r.registeredAt).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) %></td>
+              <td>
+                <a class="btn btn-secondary btn-sm" href="/admin/pendaftar/<%= r.id %>/edit">Ubah</a>
+                <form class="inline-form" method="post" action="/admin/pendaftar/<%= r.id %>/hapus"
+                      onsubmit="return confirm('Hapus data pendaftar ini? Ranking akan dihitung ulang setelah ini.');">
+                  <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/foot') %>

@@ -1,0 +1,37 @@
+<%- include('partials/head') %>
+
+<h1 class="page-title">Pendaftaran Berhasil Disimpan</h1>
+
+<div class="alert alert-success">
+  Data pendaftaran atas nama <strong><%= registrant.name %></strong> telah tersimpan.
+</div>
+
+<div class="card">
+  <h2 class="section-title mt-0">Ringkasan Pendaftaran</h2>
+  <div class="table-wrap">
+    <table>
+      <tbody>
+        <tr><th>Nama</th><td><%= registrant.name %></td></tr>
+        <tr><th>NISN</th><td><%= registrant.nisn %></td></tr>
+        <tr><th>Sekolah Tujuan</th><td><%= school ? school.name : '-' %></td></tr>
+        <tr><th>Jalur</th><td><%= TRACK_LABELS[registrant.track] %></td></tr>
+        <% if (registrant.track === 'prestasi') { %>
+          <tr><th>Nilai Prestasi</th><td><%= registrant.achievementScore %></td></tr>
+        <% } %>
+        <tr><th>Jarak Rumah ke Sekolah</th><td><%= formatDistance(registrant.distanceKm) %> (dihitung otomatis dengan rumus haversine)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="alert alert-info">
+  Simpan NISN Anda. Gunakan halaman <a href="/hasil">Cek Hasil</a> untuk melihat status penerimaan
+  setelah jadwal pengumuman resmi tayang.
+</div>
+
+<div class="actions-row">
+  <a class="btn btn-secondary" href="/daftar">Daftarkan Peserta Lain</a>
+  <a class="btn btn-primary" href="/hasil">Ke Halaman Cek Hasil</a>
+</div>
+
+<%- include('partials/foot') %>

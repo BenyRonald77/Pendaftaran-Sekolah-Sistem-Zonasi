@@ -1,0 +1,78 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title"><%= mode === 'create' ? 'Tambah Pendaftar' : 'Ubah Pendaftar: ' + registrant.name %></h1>
+
+<% if (schools.length === 0) { %>
+  <div class="state-box state-empty">
+    <h3>Belum ada sekolah</h3>
+    <p>Tambahkan data sekolah terlebih dahulu sebelum menambahkan pendaftar.</p>
+    <a class="btn btn-primary btn-sm" href="/admin/sekolah/baru">Tambah Sekolah</a>
+  </div>
+<% } else { %>
+  <form method="post" action="<%= mode === 'create' ? '/admin/pendaftar' : '/admin/pendaftar/' + registrant.id %>">
+    <fieldset>
+      <legend>Data Diri</legend>
+      <div class="field">
+        <label for="name">Nama Lengkap</label>
+        <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
+        <% if (errors.name) { %><p class="field-error"><%= errors.name %></p><% } %>
+      </div>
+      <div class="field">
+        <label for="nisn">NISN</label>
+        <input type="text" inputmode="numeric" id="nisn" name="nisn" value="<%= values.nisn || '' %>" required>
+        <% if (errors.nisn) { %><p class="field-error"><%= errors.nisn %></p><% } %>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Lokasi Rumah</legend>
+      <%- include('../partials/koordinat-input', {
+        idPrefix: 'rumah',
+        label: 'Titik lokasi rumah',
+        latValue: values.lat || '',
+        lngValue: values.lng || '',
+        latError: errors.lat,
+        lngError: errors.lng
+      }) %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Sekolah dan Jalur</legend>
+      <div class="field">
+        <label for="schoolId">Sekolah Tujuan</label>
+        <select id="schoolId" name="schoolId" required>
+          <option value="">-- Pilih sekolah --</option>
+          <% schools.forEach(function (school) { %>
+            <option value="<%= school.id %>" <%= values.schoolId === school.id ? 'selected' : '' %>><%= school.name %></option>
+          <% }); %>
+        </select>
+        <% if (errors.schoolId) { %><p class="field-error"><%= errors.schoolId %></p><% } %>
+      </div>
+
+      <div class="field">
+        <label for="track">Jalur</label>
+        <select id="track" name="track" required>
+          <option value="">-- Pilih jalur --</option>
+          <option value="zonasi" <%= values.track === 'zonasi' ? 'selected' : '' %>><%= TRACK_LABELS.zonasi %></option>
+          <option value="prestasi" <%= values.track === 'prestasi' ? 'selected' : '' %>><%= TRACK_LABELS.prestasi %></option>
+          <option value="afirmasi" <%= values.track === 'afirmasi' ? 'selected' : '' %>><%= TRACK_LABELS.afirmasi %></option>
+        </select>
+        <% if (errors.track) { %><p class="field-error"><%= errors.track %></p><% } %>
+      </div>
+
+      <div class="field">
+        <label for="achievementScore">Nilai Prestasi (wajib jika jalur Prestasi)</label>
+        <input type="number" step="any" min="0" id="achievementScore" name="achievementScore"
+               value="<%= values.achievementScore ?? '' %>">
+        <% if (errors.achievementScore) { %><p class="field-error"><%= errors.achievementScore %></p><% } %>
+      </div>
+    </fieldset>
+
+    <div class="actions-row">
+      <button type="submit" class="btn btn-primary"><%= mode === 'create' ? 'Simpan Pendaftar' : 'Simpan Perubahan' %></button>
+      <a class="btn btn-secondary" href="/admin/pendaftar">Batal</a>
+    </div>
+  </form>
+<% } %>
+
+<%- include('../partials/foot') %>

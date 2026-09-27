@@ -10,5 +10,6 @@ router.use(requireAdmin);
 router.use('/', require('./dashboard'));
 router.use('/sekolah', require('./sekolah'));
 router.use('/jadwal', require('./jadwal'));
+router.use('/pendaftar', require('./pendaftar'));
 
 module.exports = router;
