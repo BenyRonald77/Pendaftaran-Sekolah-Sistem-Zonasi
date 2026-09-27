@@ -1,0 +1,70 @@
+<%- include('partials/head') %>
+
+<h1 class="page-title">Cek Hasil Kelulusan</h1>
+<p class="page-lede">Masukkan NISN Anda untuk melihat status penerimaan pada sekolah yang Anda daftarkan.</p>
+
+<% if (!released) { %>
+  <div class="lock-panel">
+    <div class="lock-ring" aria-hidden="true"></div>
+    <h2 class="section-title">Belum waktunya pengumuman</h2>
+    <% if (hasSchedule) { %>
+      <p>Hasil kelulusan akan tayang pada:</p>
+      <p class="release-date"><%= releaseAtFormatted %></p>
+      <p class="text-muted">Silakan kembali ke halaman ini setelah waktu tersebut. Waktu diverifikasi oleh server, bukan jam pada perangkat Anda.</p>
+    <% } else { %>
+      <p class="text-muted">Jadwal pengumuman belum diatur oleh admin. Silakan cek kembali nanti.</p>
+    <% } %>
+  </div>
+<% } else { %>
+  <form method="get" action="/hasil" class="card">
+    <div class="field">
+      <label for="nisn">NISN</label>
+      <input type="text" inputmode="numeric" id="nisn" name="nisn" value="<%= nisnQuery %>" required>
+    </div>
+    <div class="actions-row">
+      <button type="submit" class="btn btn-primary">Cari Hasil</button>
+    </div>
+  </form>
+
+  <div class="section">
+    <% if (!searched) { %>
+      <div class="state-box state-empty">
+        <h3>Masukkan NISN untuk mulai mencari</h3>
+        <p>Hasil akan tampil di bawah ini setelah Anda mengisi NISN dan menekan tombol Cari Hasil.</p>
+      </div>
+    <% } else if (dataError) { %>
+      <div class="state-box state-error">
+        <h3>Data tidak dapat dimuat</h3>
+        <p><%= dataError %></p>
+      </div>
+    <% } else if (results.length === 0) { %>
+      <div class="state-box state-empty">
+        <h3>Data pendaftaran tidak ditemukan</h3>
+        <p>Tidak ada data pendaftar dengan NISN "<%= nisnQuery %>". Periksa kembali NISN yang Anda masukkan, atau pastikan Anda sudah mengisi formulir pendaftaran.</p>
+      </div>
+    <% } else { %>
+      <% results.forEach(function (r) { %>
+        <div class="card">
+          <h3 class="section-title mt-0"><%= r.school.name %></h3>
+          <p class="text-muted mt-0">Jalur <%= TRACK_LABELS[r.track] %></p>
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr><th>Nama</th><td><%= r.name %></td></tr>
+                <tr><th>Status</th><td><span class="badge badge--<%= r.status %>"><%= STATUS_LABELS[r.status] %></span></td></tr>
+                <tr><th>Peringkat pada jalur ini</th><td><%= r.rank %> dari kuota <%= r.quota %></td></tr>
+                <% if (r.track === 'zonasi') { %>
+                  <tr><th>Jarak ke Sekolah</th><td><%= formatDistance(r.distanceKm) %></td></tr>
+                <% } else if (r.track === 'prestasi') { %>
+                  <tr><th>Nilai Prestasi</th><td><%= r.achievementScore %></td></tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
+<% } %>
+
+<%- include('partials/foot') %>

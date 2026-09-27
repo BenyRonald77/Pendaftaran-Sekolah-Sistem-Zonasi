@@ -1,0 +1,88 @@
+<%- include('../partials/head') %>
+
+<div class="preview-banner">Preview internal - bukan tampilan publik. Halaman ini tidak terikat jadwal pengumuman.</div>
+
+<h1 class="page-title">Preview Hasil</h1>
+<p class="page-lede">
+  Halaman ini menampilkan hasil ranking untuk seluruh jalur di satu sekolah, kapan saja, tanpa
+  menunggu jadwal pengumuman. Gunakan untuk memverifikasi kewajaran data sebelum pengumuman resmi tayang.
+</p>
+
+<% if (dataError) { %>
+  <div class="state-box state-error">
+    <h3>Data tidak dapat dimuat</h3>
+    <p><%= dataError %></p>
+  </div>
+<% } else if (schools.length === 0) { %>
+  <div class="state-box state-empty">
+    <h3>Belum ada sekolah</h3>
+    <p>Tambahkan data sekolah terlebih dahulu.</p>
+  </div>
+<% } else { %>
+  <form method="get" action="/admin/preview-hasil" class="card">
+    <div class="field">
+      <label for="schoolId">Sekolah</label>
+      <select id="schoolId" name="schoolId" required>
+        <option value="">-- Pilih sekolah --</option>
+        <% schools.forEach(function (s) { %>
+          <option value="<%= s.id %>" <%= schoolId === s.id ? 'selected' : '' %>><%= s.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="actions-row">
+      <button type="submit" class="btn btn-primary">Tampilkan Preview</button>
+    </div>
+  </form>
+
+  <div class="section">
+    <% if (!schoolId) { %>
+      <div class="state-box state-empty">
+        <h3>Pilih sekolah</h3>
+        <p>Hasil preview untuk seluruh jalur akan tampil di sini.</p>
+      </div>
+    <% } else if (!school) { %>
+      <div class="state-box state-error">
+        <h3>Sekolah tidak ditemukan</h3>
+        <p>Sekolah yang dipilih mungkin sudah dihapus.</p>
+      </div>
+    <% } else { %>
+      <% ['zonasi', 'prestasi', 'afirmasi'].forEach(function (track) { %>
+        <div class="card">
+          <h2 class="section-title mt-0"><%= school.name %> &middot; Jalur <%= TRACK_LABELS[track] %></h2>
+          <% if (ranking[track].length === 0) { %>
+            <p class="text-muted">Belum ada pendaftar pada jalur ini.</p>
+          <% } else { %>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="numeric">Peringkat</th>
+                    <th>Nama</th>
+                    <th>NISN</th>
+                    <% if (track === 'zonasi') { %><th class="numeric">Jarak</th><% } %>
+                    <% if (track === 'prestasi') { %><th class="numeric">Nilai</th><% } %>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% ranking[track].forEach(function (r) { %>
+                    <tr>
+                      <td class="numeric"><%= r.rank %></td>
+                      <td><%= r.name %></td>
+                      <td><%= r.nisn %></td>
+                      <% if (track === 'zonasi') { %><td class="numeric"><%= formatDistance(r.distanceKm) %></td><% } %>
+                      <% if (track === 'prestasi') { %><td class="numeric"><%= r.achievementScore %></td><% } %>
+                      <td><span class="badge badge--<%= r.status %>"><%= STATUS_LABELS[r.status] %></span></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
+<% } %>
+
+<%- include('../partials/foot') %>

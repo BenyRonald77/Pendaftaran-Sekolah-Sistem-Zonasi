@@ -7,6 +7,7 @@
 
 <div class="actions-row">
   <a class="btn btn-primary" href="/daftar">Isi Formulir Pendaftaran</a>
+  <a class="btn btn-secondary" href="/hasil">Cek Hasil Kelulusan</a>
   <a class="btn btn-secondary" href="/sekolah">Lihat Daftar Sekolah</a>
 </div>
 
@@ -49,6 +50,7 @@
       <% if (releaseAtFormatted) { %>
         <p class="mt-0">Hasil kelulusan dijadwalkan tayang pada:</p>
         <p style="font-weight:700;font-size:1.1rem;color:var(--color-navy-dark)"><%= releaseAtFormatted %></p>
+        <p class="text-muted mt-0">Sebelum waktu tersebut, halaman <a href="/hasil">Cek Hasil</a> akan menampilkan pesan bahwa pengumuman belum waktunya.</p>
       <% } else { %>
         <p class="mt-0 text-muted">Jadwal pengumuman belum diatur oleh admin.</p>
       <% } %>
