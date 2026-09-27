@@ -6,7 +6,9 @@ const _defaultLng = typeof defaultLng !== 'undefined' ? defaultLng : 107.6098;
 %>
 <div class="field-group">
   <span class="field-label"><%= label %></span>
-  <p class="map-status" data-map-status-for="<%= idPrefix %>-map">Memuat peta...</p>
+  <p class="map-status state-loading-text" data-map-status-for="<%= idPrefix %>-map">
+    <span class="spinner" aria-hidden="true"></span>Memuat peta...
+  </p>
   <div id="<%= idPrefix %>-map" class="koordinat-map" data-koordinat-map
        data-lat-input="<%= idPrefix %>-lat" data-lng-input="<%= idPrefix %>-lng"
        data-default-lat="<%= _defaultLat %>" data-default-lng="<%= _defaultLng %>"></div>

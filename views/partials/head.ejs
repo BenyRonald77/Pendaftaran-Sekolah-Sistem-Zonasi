@@ -26,7 +26,7 @@
     <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="nav-utama">
       Menu
     </button>
-    <% if (currentPath && currentPath.startsWith('/admin')) { %>
+    <% if (currentPath && currentPath.startsWith('/admin') && isAdmin) { %>
       <ul class="nav-links" id="nav-utama" data-nav-links>
         <li><a href="/admin" <%- currentPath === '/admin' ? 'aria-current="page"' : '' %>>Dasbor</a></li>
         <li><a href="/admin/sekolah" <%- currentPath.startsWith('/admin/sekolah') ? 'aria-current="page"' : '' %>>Sekolah</a></li>
@@ -40,6 +40,11 @@
             <button type="submit" class="nav-link-button">Keluar</button>
           </form>
         </li>
+      </ul>
+    <% } else if (currentPath && currentPath.startsWith('/admin')) { %>
+      <ul class="nav-links" id="nav-utama" data-nav-links>
+        <li><a href="/admin/login" aria-current="page">Masuk Admin</a></li>
+        <li><a href="/">Kembali ke Situs Publik</a></li>
       </ul>
     <% } else { %>
       <ul class="nav-links" id="nav-utama" data-nav-links>
