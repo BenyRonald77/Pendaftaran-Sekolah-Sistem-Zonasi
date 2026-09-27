@@ -11,5 +11,6 @@ router.use('/', require('./dashboard'));
 router.use('/sekolah', require('./sekolah'));
 router.use('/jadwal', require('./jadwal'));
 router.use('/pendaftar', require('./pendaftar'));
+router.use('/ranking', require('./ranking'));
 
 module.exports = router;

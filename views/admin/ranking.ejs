@@ -1,0 +1,99 @@
+<%- include('../partials/head') %>
+
+<h1 class="page-title">Perangkingan</h1>
+<p class="page-lede">
+  Ranking dihitung ulang penuh setiap halaman ini dimuat, langsung dari data pendaftar saat ini.
+  Tidak ada nilai yang disimpan sebelumnya (cache), sehingga hasil selalu mengikuti perubahan terbaru.
+</p>
+
+<% if (dataError) { %>
+  <div class="state-box state-error">
+    <h3>Data tidak dapat dimuat</h3>
+    <p><%= dataError %></p>
+  </div>
+<% } else if (schools.length === 0) { %>
+  <div class="state-box state-empty">
+    <h3>Belum ada sekolah</h3>
+    <p>Tambahkan data sekolah terlebih dahulu untuk melihat ranking.</p>
+  </div>
+<% } else { %>
+  <form method="get" action="/admin/ranking" class="card">
+    <div class="field-row">
+      <div class="field">
+        <label for="schoolId">Sekolah</label>
+        <select id="schoolId" name="schoolId" required>
+          <option value="">-- Pilih sekolah --</option>
+          <% schools.forEach(function (s) { %>
+            <option value="<%= s.id %>" <%= schoolId === s.id ? 'selected' : '' %>><%= s.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="field">
+        <label for="track">Jalur</label>
+        <select id="track" name="track">
+          <option value="zonasi" <%= track === 'zonasi' ? 'selected' : '' %>>Zonasi (jarak terdekat)</option>
+          <option value="prestasi" <%= track === 'prestasi' ? 'selected' : '' %>>Prestasi (nilai tertinggi)</option>
+          <option value="afirmasi" <%= track === 'afirmasi' ? 'selected' : '' %>>Afirmasi (waktu daftar tercepat)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions-row">
+      <button type="submit" class="btn btn-primary">Tampilkan Ranking</button>
+    </div>
+  </form>
+
+  <div class="section">
+    <% if (!schoolId) { %>
+      <div class="state-box state-empty">
+        <h3>Pilih sekolah dan jalur</h3>
+        <p>Ranking akan tampil di sini setelah Anda memilih sekolah dan jalur di atas.</p>
+      </div>
+    <% } else if (!school) { %>
+      <div class="state-box state-error">
+        <h3>Sekolah tidak ditemukan</h3>
+        <p>Sekolah yang dipilih mungkin sudah dihapus.</p>
+      </div>
+    <% } else if (ranked.length === 0) { %>
+      <div class="state-box state-empty">
+        <h3>Belum ada pendaftar</h3>
+        <p><%= school.name %> belum memiliki pendaftar pada jalur <%= TRACK_LABELS[track] %>.</p>
+      </div>
+    <% } else { %>
+      <h2 class="section-title"><%= school.name %> &middot; Jalur <%= TRACK_LABELS[track] %></h2>
+      <p class="text-muted">
+        Kuota jalur ini:
+        <strong><%= track === 'zonasi' ? school.quotaZonasi : track === 'prestasi' ? school.quotaPrestasi : school.quotaAfirmasi %></strong>
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="numeric">Peringkat</th>
+              <th>Nama</th>
+              <th>NISN</th>
+              <% if (track === 'zonasi') { %><th class="numeric">Jarak</th><% } %>
+              <% if (track === 'prestasi') { %><th class="numeric">Nilai</th><% } %>
+              <th>Waktu Daftar</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% ranked.forEach(function (r) { %>
+              <tr>
+                <td class="numeric"><%= r.rank %></td>
+                <td><%= r.name %></td>
+                <td><%= r.nisn %></td>
+                <% if (track === 'zonasi') { %><td class="numeric"><%= formatDistance(r.distanceKm) %></td><% } %>
+                <% if (track === 'prestasi') { %><td class="numeric"><%= r.achievementScore %></td><% } %>
+                <td><%= new Date(r.registeredAt).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) %></td>
+                <td><span class="badge badge--<%= r.status %>"><%= STATUS_LABELS[r.status] %></span></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+<% } %>
+
+<%- include('../partials/foot') %>
